@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akhilesh Kumar Bhagat — Embedded systems engineer</title>
+<meta name="description" content="Embedded systems engineer (IIT Madras; Student Research Associate at IIT Kanpur). Firmware for ESP32, STM32 and Linux, turned into musical instruments, assistive devices and robots. 3 patents, papers at CHI, UIST and NIME, Best Paper at INDIS 2026.">
+<meta name="author" content="Akhilesh Kumar Bhagat">
+<link rel="canonical" href="https://krakhilesh.netlify.app/">
+<meta name="theme-color" content="#2b5be6">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://krakhilesh.netlify.app/">
+<meta property="og:title" content="Akhilesh Kumar Bhagat — I build hardware that responds.">
+<meta property="og:description" content="Instruments, assistive devices and robots. 3 patents · CHI · UIST · NIME · IIT Madras / IIT Kanpur.">
+<meta property="og:image" content="https://krakhilesh.netlify.app/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:wght@400..600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://i.ytimg.com">
+<link rel="stylesheet" href="css/style.css">
+<script>
+  // Motion: full by default; "calm" if the visitor's OS asks for less motion, unless they chose otherwise here.
+  (function (d) {
+    d.classList.add('js');
+    var m, q = location.search.match(/[?&]motion=(full|calm)/);
+    try { if (q) localStorage.setItem('motion', q[1]); m = localStorage.getItem('motion'); } catch (e) { m = q && q[1]; }
+    if (m ? m === 'calm' : window.matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('motion-calm');
+  })(document.documentElement);
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Akhilesh Kumar Bhagat",
+  "jobTitle": "Embedded Systems Engineer",
+  "url": "https://krakhilesh.netlify.app/",
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "Indian Institute of Technology Madras" },
+  "sameAs": [
+    "https://www.linkedin.com/in/krakhilesh/",
+    "https://github.com/akhileshkrbhagat1",
+    "https://scholar.google.com/citations?user=IMn1kfAAAAAJ"
+  ],
+  "knowsAbout": ["Embedded Systems", "ESP32", "STM32", "FreeRTOS", "Linux device drivers", "IoT", "Robotics", "Human-Computer Interaction"]
+}
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- vertical grid lines across the whole page -->
+<div class="lines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+
+<header class="top">
+  <a class="top__name" href="#main">
+    <b>Akhilesh Kumar Bhagat</b>
+    <span>Embedded systems engineer</span>
+  </a>
+</header>
+<a class="pill magnetic top__cta" href="#contact">Get in touch <span aria-hidden="true">↓</span></a>
+
+<main id="main">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="hero" data-say="Hi, I'm *Akhilesh*. Scroll down and I'll show you what I build.">
+    <div class="wrap hero__copy">
+      <h1 class="hero__title" data-split>
+        <span class="hero__l1">I build hardware</span>
+        <span class="hero__l2">that responds.</span>
+      </h1>
+    </div>
+    <div class="hero__stage">
+      <p class="bubble bubble--hero" id="heroBubble" aria-live="polite"><span class="bubble__tail"></span><span class="bubble__txt"></span></p>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT (scroll fills the words in) ================= -->
+  <section class="about" id="about" aria-label="About">
+    <div class="about__pin">
+      <div class="wrap">
+        <p class="about__text" id="aboutText">I'm an embedded systems engineer from West Bengal. I study Electronic Systems at *IIT Madras* and build at *IIT Kanpur*, where my work became *three patents* and papers at CHI, UIST and NIME. I care most about hardware that *people can feel* — instruments, assistive devices and robots.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURED TOUR (pinned, scroll-driven) ================= -->
+  <section class="tour" id="featured" aria-label="Featured projects">
+    <div class="tour__stage" id="tourStage">
+      <div class="wrap tour__inner">
+        <div class="tour__bars" id="tourBars" aria-hidden="true"></div>
+        <header class="tour__head">
+          <div class="tour__titles" id="tourTitles"></div>
+          <button class="pill magnetic" type="button" id="tourPill">Watch the film <span aria-hidden="true">→</span></button>
+        </header>
+        <div class="tour__screens" id="tourScreens"></div>
+      </div>
+      <p class="bubble bubble--tour" id="tourBubble"><span class="bubble__tail"></span><span class="bubble__txt"></span></p>
+    </div>
+  </section>
+
+  <!-- ================= ALL WORK ================= -->
+  <section class="work" id="work">
+    <div class="wrap">
+      <header class="work__head reveal">
+        <h2 data-split>All work</h2>
+        <p id="workCount">Projects in five groups</p>
+      </header>
+      <nav class="segnav" id="segNav" aria-label="Project groups"></nav>
+      <div id="segments"></div>
+    </div>
+  </section>
+
+  <!-- ================= RESEARCH ================= -->
+  <section class="proof" id="research" data-say="The paperwork: *3 patents*, 6 papers and one Best Paper Award.">
+    <div class="wrap">
+      <header class="work__head reveal">
+        <h2 data-split>Research</h2>
+        <p>Patents, papers, recognition</p>
+      </header>
+
+      <ul class="counters reveal">
+        <li><b data-count="3">3</b><span>patents — 2 granted, 1 filed</span></li>
+        <li><b data-count="6">6</b><span>papers — CHI, UIST, NIME, C&amp;C, INDIS</span></li>
+        <li><b data-count="1">1</b><span>Best Paper Award, INDIS 2026</span></li>
+        <li><b data-count="1000" data-suffix="+">1000+</b><span>students reached through Yantra</span></li>
+      </ul>
+
+      <div class="cols">
+        <div>
+          <h3 class="minihead reveal">Patents</h3>
+          <ol class="rows">
+            <li class="row reveal">
+              <span class="row__tag is-hot">Granted · 588076</span>
+              <span class="row__title">Wearable Musical Device for Simulating Indian Classical Percussion Audio</span>
+              <span class="row__sub">The Tabla Glove</span>
+            </li>
+            <li class="row reveal">
+              <span class="row__tag is-hot">Granted · 587794</span>
+              <span class="row__title">A Musical Instrument</span>
+              <span class="row__sub">Swarings, the ring-based MIDI controller</span>
+            </li>
+            <li class="row reveal">
+              <span class="row__tag">Filed · 2025</span>
+              <span class="row__title">Real-Time Visual Feedback System and Method for Minimizing the Risk of Jaywalking or Distracted Walking</span>
+              <span class="row__sub">PathBuddy — open for licensing via IIT Kanpur</span>
+            </li>
+          </ol>
+        </div>
+        <div>
+          <h3 class="minihead reveal">Papers</h3>
+          <ol class="rows">
+            <li class="row reveal">
+              <span class="row__tag is-hot">INDIS ’26 · Best Paper</span>
+              <span class="row__title">PathBuddy: A Smart Solution to Prevent Smartphone-Induced Jaywalking Risks with Enhanced Obstacle Awareness</span>
+              <span class="row__sub">First author · IIT Guwahati</span>
+            </li>
+            <li class="row reveal">
+              <a class="row__link" href="https://dl.acm.org/doi/abs/10.1145/3772318.3791535" target="_blank" rel="noopener">
+                <span class="row__tag">CHI ’26</span>
+                <span class="row__title">When Assistive Technologies become Provocations: Unpacking Access in HCI practices using Crip Technoscience, Mouth Interfaces, and XR</span>
+                <span class="row__go" aria-hidden="true">↗</span>
+              </a>
+            </li>
+            <li class="row reveal">
+              <a class="row__link" href="https://dl.acm.org/doi/abs/10.1145/3803784.3816837" target="_blank" rel="noopener">
+                <span class="row__tag">C&amp;C ’26</span>
+                <span class="row__title">Designing a Scaffolding for the Audience to Create Participatory Sense-making in Indian Classical Dance</span>
+                <span class="row__go" aria-hidden="true">↗</span>
+              </a>
+            </li>
+            <li class="row reveal">
+              <a class="row__link" href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=IMn1kfAAAAAJ&amp;citation_for_view=IMn1kfAAAAAJ:qjMakFHDy7sC" target="_blank" rel="noopener">
+                <span class="row__tag">NIME ’26</span>
+                <span class="row__title">Layika: A Wearable Device Mapping Traditional Hand Gestures to Tabla Sound</span>
+                <span class="row__go" aria-hidden="true">↗</span>
+              </a>
+            </li>
+            <li class="row reveal">
+              <a class="row__link" href="https://dl.acm.org/doi/abs/10.1145/3746058.3758455" target="_blank" rel="noopener">
+                <span class="row__tag">UIST ’25</span>
+                <span class="row__title">Swarings: Exploring Expressive Freedom through Ring-Based Musical Interaction</span>
+                <span class="row__go" aria-hidden="true">↗</span>
+              </a>
+            </li>
+            <li class="row reveal">
+              <a class="row__link" href="https://nime.org/proc/nime2025_95/index.html" target="_blank" rel="noopener">
+                <span class="row__tag">NIME ’25</span>
+                <span class="row__title">GraviTone: A Tangible Musical Interface using Gravity Well for Sound and Music Creation</span>
+                <span class="row__go" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          </ol>
+          <p class="note reveal">Also three posters &amp; demos at India HCI 2025 — GraviTone, Swarings and the Tabla Glove. <a href="https://scholar.google.com/citations?user=IMn1kfAAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar ↗</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXPERIENCE ================= -->
+  <section class="proof" id="experience" data-say="Where I've worked — mostly *IIT Kanpur* and the robotics society I started.">
+    <div class="wrap">
+      <header class="work__head reveal">
+        <h2 data-split>Experience</h2>
+        <p>Labs, teaching, a society I founded</p>
+      </header>
+      <ol class="jobs">
+        <li class="job reveal"><span class="job__when">Jul 2026 — now</span><span class="job__what"><b>Student Research Associate</b> IIT Kanpur · National Quantum Mission</span></li>
+        <li class="job reveal"><span class="job__when">Dec 2025 — now</span><span class="job__what"><b>Teaching Assistant, School Connect</b> CODE, IIT Madras</span></li>
+        <li class="job reveal"><span class="job__when">Apr — Jun 2026</span><span class="job__what"><b>Project Assistant</b> IIT Madras</span></li>
+        <li class="job reveal"><span class="job__when">Nov 2024 — Mar 2026</span><span class="job__what"><b>Research Intern</b> HIVE Lab, IIT Kanpur — 10+ prototypes, 3 patents, 6 papers; helped 20+ Master's and PhD students build theirs</span></li>
+        <li class="job reveal"><span class="job__when">Aug 2024 — Jul 2026</span><span class="job__what"><b>Founder &amp; Secretary</b> Yantra — Robotics Society, IIT Madras BS · 30-member core team, 1000+ members, 30+ hands-on sessions</span></li>
+        <li class="job reveal"><span class="job__when">Mar 2025</span><span class="job__what"><b>Event Coordinator &amp; Exhibitor</b> Techkriti 2025, IIT Kanpur · ~60,000 visitors</span></li>
+        <li class="job reveal"><span class="job__when">2023 — 2027</span><span class="job__what"><b>BS, Electronic Systems</b> Indian Institute of Technology Madras</span></li>
+      </ol>
+      <ul class="chips reveal" aria-label="Toolkit">
+        <li>Embedded C</li><li>Python</li><li>Verilog</li><li>ESP32</li><li>STM32</li><li>Raspberry Pi &amp; Pico</li><li>NVIDIA Jetson</li><li>Intel RealSense</li><li>FreeRTOS</li><li>Linux device drivers</li><li>ROS 2</li><li>MQTT</li><li>ESP-NOW</li><li>SPI · I²C · UART · CAN</li><li>OpenCV</li><li>LTspice</li><li>Fusion</li><li>Git</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= CODE ================= -->
+  <section class="proof" id="code" data-say="Everything I publish on *GitHub* shows up here automatically.">
+    <div class="wrap">
+      <header class="work__head reveal">
+        <h2 data-split>Open source</h2>
+        <p><a href="https://github.com/akhileshkrbhagat1" target="_blank" rel="noopener">github.com/akhileshkrbhagat1 ↗</a></p>
+      </header>
+      <ol class="repos" id="repoList"></ol>
+    </div>
+  </section>
+</main>
+
+<!-- ================= CONTACT ================= -->
+<footer class="end" id="contact">
+  <div class="wrap end__inner">
+    <h2 class="end__title reveal split" data-split>Got hardware to build?</h2>
+    <p class="end__lead reveal">I'm open to embedded, firmware, IoT and robotics R&amp;D roles.</p>
+    <a class="end__mail reveal" href="mailto:akhileshkrbhagat1@gmail.com">akhileshkrbhagat1<wbr>@gmail.com</a>
+
+    <ul class="end__links reveal">
+      <li><a href="https://www.linkedin.com/in/krakhilesh/" target="_blank" rel="noopener">LinkedIn <span>↗</span></a></li>
+      <li><a href="https://github.com/akhileshkrbhagat1" target="_blank" rel="noopener">GitHub <span>↗</span></a></li>
+      <li><a href="https://scholar.google.com/citations?user=IMn1kfAAAAAJ&amp;hl=en" target="_blank" rel="noopener">Scholar <span>↗</span></a></li>
+      <li><a href="https://docs.google.com/document/d/1UF1OlrlN-YttllmtAV-eXALk00rvfl4_LjhOht3sfos/view?format=pdf" target="_blank" rel="noopener">Résumé <span>↗</span></a></li>
+    </ul>
+
+    <details class="end__form reveal">
+      <summary>Or leave a message here</summary>
+      <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="d19cc39a-734f-4d54-812f-78be78ab16f6">
+        <input type="hidden" name="subject" value="Portfolio contact — Akhilesh Kumar Bhagat">
+        <input type="hidden" name="redirect" value="https://krakhilesh.netlify.app/?sent=1#contact">
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label>Name<input name="name" type="text" autocomplete="name" required></label>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <label class="full">Message<textarea name="message" rows="4" required></textarea></label>
+        <button class="pill" type="submit">Send <span aria-hidden="true">→</span></button>
+        <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+      </form>
+    </details>
+
+    <p class="end__copy">© <span id="year">2026</span> Akhilesh Kumar Bhagat · West Bengal, India · <button class="dress" id="dressUp" type="button">Dress me up</button> · <button class="dress" id="motionToggle" type="button">Motion</button></p>
+  </div>
+  <button class="me me--end" id="endMe" type="button" aria-label="Pixel portrait of Akhilesh. Click to change outfit.">
+    <canvas width="180" height="210"></canvas>
+  </button>
+</footer>
+
+<!-- The travelling character: hero centre → tour corner, then hands over to the badge below -->
+<button class="me me--float" id="heroMe" type="button" aria-label="Pixel portrait of Akhilesh. Click to say hi.">
+  <canvas width="180" height="210"></canvas>
+</button>
+
+<!-- The guide badge: comments on each section of the work grid and below -->
+<div class="guide" id="guide" aria-hidden="true">
+  <button class="me me--guide" id="guideMe" type="button" tabindex="-1">
+    <canvas width="180" height="210"></canvas>
+  </button>
+  <p class="bubble bubble--guide" id="guideBubble"><span class="bubble__tail"></span><span class="bubble__txt"></span></p>
+</div>
+
+<div class="cursor" id="cursor" aria-hidden="true"><span>Play</span></div>
+
+<dialog class="modal" id="modal" aria-labelledby="modalTitle">
+  <div class="modal__bar">
+    <i></i><i></i><i></i>
+    <span class="modal__file" id="modalFile"></span>
+    <button class="modal__close" type="button" id="modalClose" aria-label="Close">✕</button>
+  </div>
+  <div class="modal__media" id="modalMedia"></div>
+  <div class="modal__body" id="modalBody"></div>
+</dialog>
+
+<script src="js/data.js"></script>
+<script src="js/me.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
