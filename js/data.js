@@ -19,7 +19,7 @@
 window.SITE = {
   segments: [
     { key: "music", title: "Musical interfaces", blurb: "Instruments you play with your fingers, rings and gravity.", say: "These are the instruments. Two of them are patented." },
-    { key: "assistive", title: "HCI & Assistive", blurb: "Interfaces for people the default design forgets — and for audiences new to an art form.", say: "This group is about access — eyes, mouths, dancers and distracted walkers." },
+    { key: "assistive", title: "HCI & Assistive", blurb: "Control with your eyes or mouth, safer walking with a phone, and a guide for new dance audiences.", say: "This group is about access — eyes, mouths, dance and safer walking." },
     { key: "robotics", title: "Robotics", blurb: "Bots that roll, follow lines you draw, and fight in arenas.", say: "Robots! The arena one had 150+ people driving at once." },
     { key: "embedded", title: "Embedded & Linux", blurb: "Close to the metal: kernel modules, bare-metal C, UART.", say: "Kernel drivers and bare-metal C. My favourite kind of debugging." },
     { key: "vision", title: "AI & Vision", blurb: "Wearable cameras, depth sensing and language models driving hardware.", say: "Cameras and models — mostly to make hardware smarter." }
@@ -112,10 +112,10 @@ window.SITE = {
       segment: "assistive",
       title: "Mouth Tracker for XR",
       label: "CHI ’26",
-      summary: "XR assumes everyone has hands. This tracker reads tongue, cheek and jaw movement instead — built with disabled artists.",
+      summary: "Hands-free control for XR: this tracker reads tongue, cheek and jaw movement. Co-designed with artists who use it.",
       tags: ["ESP32-CAM", "IR camera", "UART", "XR"],
       video: { id: "4WwQTNpG0hs" },
-      featured: { color: "#f5d547", ink: "#17150a", file: "mouth_tracker.mp4", outfit: "vr", say: ["Last one. XR assumes everyone has hands — this tracker reads your *mouth* instead.", "ESP32-CAM and an IR camera, built with disabled artists. We took it to *CHI 2026*."] },
+      featured: { color: "#f5d547", ink: "#17150a", file: "mouth_tracker.mp4", outfit: "vr", say: ["Last one. Control XR *hands-free* — this tracker reads your *mouth* movements.", "ESP32-CAM and an IR camera, co-designed with artists. We took it to *CHI 2026*."] },
       details: [
         "Custom hardware: ESP32-CAM firmware driving an IR camera, built on the open-source Babble project.",
         "Streams camera data to the tracking software for hands-free control in XR.",
@@ -141,9 +141,9 @@ window.SITE = {
     {
       slug: "gaze-icu",
       segment: "assistive",
-      title: "Gaze Control for ICU Patients",
+      title: "Eye-Gaze Control for the ICU",
       label: "ESP32",
-      summary: "Bedridden patients pick options and raise alerts with their eyes alone.",
+      summary: "Lets people in intensive care choose options and call for help using just their eyes.",
       tags: ["ESP32", "Embedded C", "Eye-gaze"],
       video: { id: "ZBW_Mjhi-4Q" },
       details: [

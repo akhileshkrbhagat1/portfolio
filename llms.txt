@@ -79,7 +79,7 @@
   - Patent application 202511070920; listed for industry licensing by IIT Kanpur.
   - Tech: Depth sensing, Android, Computer vision
   - Video: https://www.youtube.com/watch?v=aQCHRbr6DfE
-- **Mouth Tracker for XR** (CHI ’26) — XR assumes everyone has hands. This tracker reads tongue, cheek and jaw movement instead — built with disabled artists.
+- **Mouth Tracker for XR** (CHI ’26) — Hands-free control for XR: this tracker reads tongue, cheek and jaw movement. Co-designed with artists who use it.
   - Custom hardware: ESP32-CAM firmware driving an IR camera, built on the open-source Babble project.
   - Streams camera data to the tracking software for hands-free control in XR.
   - Published at ACM CHI 2026: “When Assistive Technologies become Provocations”.
@@ -93,7 +93,7 @@
   - Tech: Computer vision, Multimodal AI, Eye tracking, HCI
   - Video: https://www.youtube.com/watch?v=ZX85xmg42VQ
   - Paper: https://dl.acm.org/doi/10.1145/3803784.3816837
-- **Gaze Control for ICU Patients** (ESP32) — Bedridden patients pick options and raise alerts with their eyes alone.
+- **Eye-Gaze Control for the ICU** (ESP32) — Lets people in intensive care choose options and call for help using just their eyes.
   - Eye-gaze interface with a tile menu; ESP32 drives the alert actuators.
   - Input validation avoids false triggers from natural blinking.
   - Tech: ESP32, Embedded C, Eye-gaze

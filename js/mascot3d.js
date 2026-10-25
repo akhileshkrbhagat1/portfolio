@@ -39,23 +39,29 @@
   };
   var ORDER = ["polo", "tee", "music", "vr", "phone", "polo-music"];
 
-  /* Arm poses for the right arm: [shoulder z (out/up), shoulder x (− = forward), elbow x (− = bend forward), elbow z]
-     The left arm mirrors the z angles. */
-  var REST = [0.16, -0.38, -1.25, 0];
+  /* Arm poses, solved with two-bone IK so both sides mirror exactly and every
+     hand stays inside the frame. Per arm, in body space for the right-hand side
+     (+x; the left side mirrors x):
+       h = where the palm goes, e = which way the elbow points, p = which way the palm faces */
+  var LU = 0.84, LF = 0.74;                      // upper arm, forearm
+  var SHOULDER = [1.2, 0.42, 0.02];
+  var REST = { h: [0.92, -0.12, 0.86], e: [0.7, -0.3, -1], p: [-0.5, 0.1, -0.85] };
   var POSES = {
     rest:      { R: REST, L: REST },
-    tabla:     { R: [0.32, -0.95, -0.95, 0], L: [0.32, -0.95, -0.95, 0] },
-    rings:     { R: [0.5, -1.05, -0.55, 0.2], L: [0.5, -1.05, -0.55, 0.2] },
-    phone:     { R: [0.42, -0.95, -1.6, -0.25], L: REST },
-    vr:        { R: [2.6, -0.45, -0.3, 1.15], L: [2.6, -0.45, -0.3, 1.15] },
-    point:     { R: [1.95, -0.35, -0.12, 0.15], L: REST },
-    sleep:     { R: [0.08, -0.15, -0.6, 0], L: [0.08, -0.15, -0.6, 0] },
-    wave:      { R: [2.75, -0.15, -0.35, 0], L: REST },
-    highfive:  { R: [1.55, -0.95, -0.25, 0], L: REST },
-    celebrate: { R: [2.65, -0.1, -0.3, 0], L: [2.65, -0.1, -0.3, 0] },
-    stretch:   { R: [2.95, 0, -0.05, 0], L: [2.95, 0, -0.05, 0] },
-    pat:       { R: [0.5, -0.65, -1.7, -0.2], L: [0.5, -0.65, -1.7, -0.2] }
+    sleep:     { R: { h: [0.82, -0.36, 0.8], e: [0.6, -0.4, -1], p: [-0.2, 0.8, -0.5] } },
+    tabla:     { R: { h: [0.72, -0.12, 1.02], e: [1, -0.4, -0.4], p: [0, -1, 0.1] } },
+    rings:     { R: { h: [0.46, 0.06, 1.04], e: [1, -0.5, -0.3], p: [-1, 0, 0.2] } },
+    vr:        { R: { h: [0.7, 0.42, 1.06], e: [1, -0.6, -0.2], p: [-0.8, -0.3, 0.4] } },
+    pat:       { R: { h: [0.24, 0.5, 0.98], e: [1, -0.7, -0.2], p: [-1, 0, 0.15] } },
+    celebrate: { R: { h: [1.44, 1.56, 0.32], e: [1, -0.5, 0.1], p: [0, 0, 1] } },
+    stretch:   { R: { h: [1.42, 1.84, 0.1], e: [1, -0.3, 0], p: [-0.3, 0, 1] } },
+    phone:     { R: { h: [0.46, 0.36, 1.04], e: [1, -0.6, -0.3], p: [-0.3, 0.5, -0.8] }, L: REST },
+    wave:      { R: { h: [1.48, 1.74, 0.36], e: [1, -0.7, 0], p: [0, 0, 1] }, L: REST },
+    highfive:  { R: { h: [1.3, 1.3, 0.9], e: [0.6, -1, 0], p: [0, 0.1, 1] }, L: REST },
+    point:     { R: { h: [1.3, 1.12, 0.62], e: [-0.6, -1, 0.3], p: [0, 0, 1] }, L: REST }
   };
+
+  function copyPose(q) { return { h: q.h.slice(), e: q.e.slice(), p: q.p.slice() }; }
 
   var renderer, scene, camera, rt, post, postScene, postCam;
   var views = [];
@@ -68,7 +74,7 @@
     squash: 0, squashV: 0, lean: 0, leanV: 0, drag: null,
     jump: -1, point: false,
     gesture: null,
-    arms: { R: REST.slice(), L: REST.slice() },
+    arms: { R: copyPose(REST), L: copyPose(REST) },
     scrollY: window.scrollY, vel: 0
   };
 
@@ -90,35 +96,64 @@
     return g;
   }
 
+  // Arm: shoulder → upper (IK) → elbow (IK) → hand (twist so the palm faces the pose's way).
+  // Fingers hang along the hand's −y, the palm faces +z, the thumb sits on the outside (+x on the right).
   function buildArm(side) {
     var s = side === "R" ? 1 : -1;
-    var shoulder = group(P.body, [1.12 * s, 0.5, 0.02]);
+    var shoulder = group(P.body, [SHOULDER[0] * s, SHOULDER[1], SHOULDER[2]]);
     var upper = group(shoulder);
-    var cap = mesh(new T.SphereGeometry(0.27, 18, 14), M.polo, upper);
-    var sleevePolo = mesh(new T.CylinderGeometry(0.27, 0.25, 0.5, 18), M.polo, upper, [0, -0.22, 0]);
-    var sleeveTee = mesh(new T.CylinderGeometry(0.27, 0.25, 0.5, 18), M.tee, upper, [0, -0.22, 0]);
+    var cap = mesh(new T.SphereGeometry(0.28, 18, 14), M.polo, upper);
+    var sleevePolo = mesh(new T.CylinderGeometry(0.28, 0.25, 0.46, 18), M.polo, upper, [0, -0.2, 0]);
+    var sleeveTee = mesh(new T.CylinderGeometry(0.28, 0.25, 0.46, 18), M.tee, upper, [0, -0.2, 0]);
     mesh(new T.CylinderGeometry(0.17, 0.155, 0.5, 16), M.skin, upper, [0, -0.6, 0]);
-    var elbow = group(upper, [0, -0.82, 0]);
-    mesh(new T.SphereGeometry(0.16, 14, 12), M.skin, elbow);
-    mesh(new T.CylinderGeometry(0.155, 0.14, 0.62, 16), M.skin, elbow, [0, -0.32, 0]);
-    var hand = group(elbow, [0, -0.72, 0]);
-    mesh(new T.SphereGeometry(0.2, 18, 14), M.skin, hand, [0, 0, 0], [0.95, 1.15, 0.72]);                          // palm
-    mesh(new T.SphereGeometry(0.075, 12, 10), M.skin, hand, [-0.17 * s, 0.04, 0.06], [1, 1.5, 1], [0, 0, 0.5 * s]); // thumb
-    var finger = new T.CylinderGeometry(0.045, 0.04, 0.16, 8);
-    [-0.1, -0.035, 0.035, 0.1].forEach(function (x) { mesh(finger, M.skin, hand, [x, -0.22, 0.01]); });
+    var elbow = group(upper, [0, -LU, 0]);
+    mesh(new T.SphereGeometry(0.158, 14, 12), M.skin, elbow);
+    mesh(new T.CylinderGeometry(0.155, 0.13, LF - 0.12, 16), M.skin, elbow, [0, -(LF - 0.12) / 2, 0]);
+    var hand = group(elbow, [0, -LF, 0]);
+    hand.rotation.order = "YXZ";
+    mesh(new T.SphereGeometry(0.2, 18, 14), M.skin, hand, [0, 0, 0], [1, 1.08, 0.62]);                               // palm
+    mesh(new T.SphereGeometry(0.072, 12, 10), M.skin, hand, [0.16 * s, -0.02, 0.06], [1, 1.7, 1], [0, 0, 0.55 * s]); // thumb
+    // Fingers from index (next to the thumb) to little finger; tips are rounded
+    var fingers = [[0.098, 0.15], [0.033, 0.17], [-0.033, 0.16], [-0.096, 0.13]].map(function (f) {
+      var g = group(hand, [f[0] * s, -0.15, 0.01]);
+      mesh(new T.CylinderGeometry(0.044, 0.042, f[1], 10), M.skin, g, [0, -f[1] / 2, 0]);
+      mesh(new T.SphereGeometry(0.042, 10, 8), M.skin, g, [0, -f[1], 0]);
+      return g;
+    });
     var phone = null;
     if (side === "R") {
-      phone = mesh(new T.BoxGeometry(0.36, 0.62, 0.05), M.device, hand, [0, -0.1, 0.17]);
+      phone = mesh(new T.BoxGeometry(0.36, 0.62, 0.05), M.device, hand, [0, -0.12, 0.16]);
       mesh(new T.PlaneGeometry(0.3, 0.52), M.screen, phone, [0, 0, 0.03]);
     }
-    return { shoulder: shoulder, upper: upper, elbow: elbow, hand: hand, cap: cap, sleevePolo: sleevePolo, sleeveTee: sleeveTee, phone: phone };
+    return { shoulder: shoulder, upper: upper, elbow: elbow, hand: hand, fingers: fingers, curl: 0, cap: cap, sleevePolo: sleevePolo, sleeveTee: sleeveTee, phone: phone };
+  }
+
+  // Two-bone IK in shoulder space. h/e/p are right-side vectors; s = −1 mirrors them for the left arm.
+  var DOWN, V, Q;
+  function solveArm(arm, s, h, e, p, wag, flex) {
+    var tv = V.t.set((h[0] - SHOULDER[0]) * s, h[1] - SHOULDER[1], h[2] - SHOULDER[2]);
+    var d = Math.max(0.3, Math.min(LU + LF - 0.002, tv.length()));
+    var dir = V.dir.copy(tv).normalize();
+    var cosA = Math.max(-1, Math.min(1, (LU * LU + d * d - LF * LF) / (2 * LU * d)));
+    var pole = V.pole.set(e[0] * s, e[1], e[2]);
+    pole.addScaledVector(dir, -pole.dot(dir));
+    if (pole.lengthSq() < 1e-6) { pole.set(s, -1, 0); pole.addScaledVector(dir, -pole.dot(dir)); }
+    pole.normalize();
+    var elbow = V.elbow.copy(dir).multiplyScalar(LU * cosA).addScaledVector(pole, LU * Math.sqrt(1 - cosA * cosA));
+    arm.upper.quaternion.setFromUnitVectors(DOWN, V.a.copy(elbow).normalize());
+    Q.inv.copy(arm.upper.quaternion).invert();
+    var fore = V.b.copy(dir).multiplyScalar(d).sub(elbow).normalize().applyQuaternion(Q.inv);
+    arm.elbow.quaternion.setFromUnitVectors(DOWN, fore);
+    Q.inv.copy(arm.upper.quaternion).multiply(arm.elbow.quaternion).invert();
+    var palm = V.c.set(p[0] * s, p[1], p[2]).applyQuaternion(Q.inv);
+    arm.hand.rotation.set(flex, Math.atan2(palm.x, palm.z), wag * s);
   }
 
   function build() {
     M = {
       skin: lambert(0xd8cbbd), hair: lambert(0x141414), dark: lambert(0x0c0c0c),
       white: new T.MeshBasicMaterial({ color: 0xffffff }),
-      polo: lambert(0x8d9bb8), tee: lambert(0x2b2d33), trim: lambert(0xe9e9e9),
+      polo: lambert(0x7486ad), tee: lambert(0x2b2d33), trim: lambert(0xe9e9e9),
       frame: lambert(0x161616), phones: lambert(0x303030), cup: lambert(0x9a9a9a),
       vr: lambert(0xf2f2f2), visor: lambert(0x1a1a1a), device: lambert(0x222222), screen: lambert(0xf7f7f7)
     };
@@ -127,10 +162,10 @@
     var root = P.root = group(scene);
     var body = P.body = group(root, [0, -1.74, 0]);
 
-    // Torso: lathe-turned bust with sloped shoulders, flattened front-to-back
+    // Torso: lathe-turned bust with sloped shoulders, narrower than the arms so they hang outside it
     var bust = new T.LatheGeometry([
-      new T.Vector2(0.001, 0.96), new T.Vector2(0.34, 0.95), new T.Vector2(0.62, 0.88), new T.Vector2(1.02, 0.7),
-      new T.Vector2(1.3, 0.42), new T.Vector2(1.4, 0.0), new T.Vector2(1.42, -0.6), new T.Vector2(1.44, -1.6)
+      new T.Vector2(0.001, 0.96), new T.Vector2(0.34, 0.95), new T.Vector2(0.62, 0.89), new T.Vector2(0.96, 0.75),
+      new T.Vector2(1.17, 0.52), new T.Vector2(1.22, 0.22), new T.Vector2(1.17, -0.3), new T.Vector2(1.12, -0.9), new T.Vector2(1.1, -1.6)
     ], 48);
     P.torsoPolo = mesh(bust, M.polo, body, [0, 0, 0], [1, 1, 0.62]);
     P.torsoTee = mesh(bust, M.tee, body, [0, 0, 0], [1, 1, 0.62]);
@@ -144,7 +179,7 @@
     var btn = new T.SphereGeometry(0.045, 12, 10);
     mesh(btn, M.trim, polo, [0, 0.74, 0.6]);
     mesh(btn, M.trim, polo, [0, 0.54, 0.7]);
-    mesh(new T.SphereGeometry(0.12, 16, 12), M.trim, polo, [0.62, 0.36, 0.72], [1, 1, 0.35]);
+    mesh(new T.SphereGeometry(0.12, 16, 12), M.trim, polo, [0.56, 0.36, 0.68], [1, 1, 0.35]);
 
     var tee = P.tee = group(body);
     mesh(new T.TorusGeometry(0.34, 0.06, 10, 32), M.trim, tee, [0, 0.96, 0.06], [1, 1, 1], [1.4, 0, 0]);
@@ -232,6 +267,9 @@
   ].join("\n");
 
   function setup() {
+    DOWN = new T.Vector3(0, -1, 0);
+    V = { t: new T.Vector3(), dir: new T.Vector3(), pole: new T.Vector3(), elbow: new T.Vector3(), a: new T.Vector3(), b: new T.Vector3(), c: new T.Vector3() };
+    Q = { inv: new T.Quaternion() };
     renderer = new T.WebGLRenderer({ canvas: document.createElement("canvas"), alpha: true, antialias: false, preserveDrawingBuffer: true });
     renderer.setPixelRatio(1);
     renderer.setSize(W, H, false);
@@ -339,32 +377,39 @@
     S.squashV += (-S.squash * 180 - S.squashV * 11) * dt;
     S.squash += S.squashV * dt;
     var jy = 0;
-    if (S.jump > 0) { var j = (t - S.jump) / 0.7; if (j >= 1) S.jump = -1; else jy = Math.sin(j * Math.PI) * 0.4; }
+    if (S.jump > 0) { var j = (t - S.jump) / 0.7; if (j >= 1) S.jump = -1; else jy = Math.sin(j * Math.PI) * 0.28; }
     P.root.scale.set(1 + S.squash * 0.6, 1 - S.squash, 1 + S.squash * 0.6);
     P.root.position.y = jy;
-    if (S.drag) { S.lean += (S.drag.dx * -0.004 - S.lean) * 0.2; S.leanV = 0; }
+    if (S.drag) { S.lean += (Math.max(-0.22, Math.min(0.22, S.drag.dx * -0.004)) - S.lean) * 0.2; S.leanV = 0; }
     else { S.leanV += (-(S.lean + v * 0.12) * 120 - S.leanV * 7) * dt; S.lean += S.leanV * dt; }
     P.root.rotation.z = S.lean;
 
-    // Arms: blend toward the pose, then add the pose's own motion
+    // Arms: ease each hand toward the pose, add the pose's own motion, then solve the IK
     var poseName = g || (S.sleep > 0.5 ? "sleep" : S.point ? "point" : o.pose);
     var pose = POSES[poseName] || POSES.rest;
+    var ease = g ? 0.2 : 0.12;
     ["R", "L"].forEach(function (k) {
-      var target = pose[k], cur = S.arms[k];
-      for (var i = 0; i < 4; i++) cur[i] += (target[i] - cur[i]) * (g ? 0.2 : 0.12);
-      var s = k === "R" ? 1 : -1, a = cur.slice();
+      var target = pose[k] || pose.R, cur = S.arms[k], arm = P[k];
+      var s = k === "R" ? 1 : -1, ph = k === "R" ? 0 : Math.PI;
+      ["h", "e", "p"].forEach(function (f) { for (var i = 0; i < 3; i++) cur[f][i] += (target[f][i] - cur[f][i]) * ease; });
+      var h = cur.h.slice(), wag = 0, flex = 0;
       if (!reduced) {
-        if (poseName === "tabla") a[2] += Math.max(0, Math.sin(t * 13 + (k === "R" ? 0 : Math.PI))) * 0.45;
-        if (poseName === "rings") { a[0] += Math.sin(t * 2.6 + (k === "R" ? 0 : 1.4)) * 0.12; a[3] += Math.sin(t * 3.1) * 0.25; }
-        if (poseName === "wave" && k === "R") a[3] = Math.sin(t * 12) * 0.55;
-        if (poseName === "celebrate") a[0] += Math.sin(t * 9 + (k === "R" ? 0 : 1)) * 0.15;
-        if (poseName === "point" && k === "R") a[0] += Math.sin(t * 4) * 0.04;
-        if (poseName === "rest") a[2] += Math.sin(t * 1.7 + (k === "R" ? 0 : 0.6)) * 0.03;
+        if (poseName === "rest") h[1] += Math.sin(t * 1.7 + ph * 0.2) * 0.02;
+        if (poseName === "tabla") { var tap = Math.max(0, Math.sin(t * 13 + ph)); h[1] += tap * 0.16; flex = -tap * 0.5; }
+        if (poseName === "rings") { h[1] += Math.sin(t * 2.6 + ph * 0.45) * 0.12; wag = Math.sin(t * 3.1) * 0.35; }
+        if (poseName === "vr") { h[0] += Math.sin(t * 1.3 + ph) * 0.07; h[1] += Math.cos(t * 1.1 + ph) * 0.07; }
+        if (poseName === "wave" && k === "R") { h[0] += Math.sin(t * 11) * 0.05; wag = Math.sin(t * 11) * 0.5; }
+        if (poseName === "celebrate") h[1] += Math.abs(Math.sin(t * 8 + ph * 0.3)) * 0.14;
+        if (poseName === "point" && k === "R") h[1] += Math.sin(t * 4) * 0.03;
+        if (poseName === "phone" && k === "R") h[1] += Math.sin(t * 1.4) * 0.02;
       }
-      var arm = P[k];
-      arm.shoulder.rotation.set(a[1], 0, a[0] * s);
-      arm.elbow.rotation.set(a[2], 0, a[3] * s);
-      arm.hand.rotation.set(poseName === "highfive" && k === "R" ? -1.2 : 0, 0, 0);
+      solveArm(arm, s, h, cur.e, cur.p, wag, flex);
+      // Pointing: index finger out, the others curled in
+      arm.curl += ((poseName === "point" && k === "R" ? 1 : 0) - arm.curl) * 0.2;
+      arm.fingers.forEach(function (f, i) {
+        f.scale.y = i ? 1 - arm.curl * 0.6 : 1 + arm.curl * 0.35;
+        f.rotation.x = i ? -arm.curl * 1.1 : 0;
+      });
     });
 
     // Outfit change: a quick spin, swapping clothes while facing away. Double-click: jump + spin.

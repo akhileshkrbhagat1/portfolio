@@ -147,7 +147,7 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.0
   border-radius: 50%; background: #fff; border: 1.5px solid var(--ink);
   box-shadow: 0 0 0 4px #fff, 0 0 0 5.5px var(--blue);
 }
-.me--guide canvas { width: 118%; max-width: none; margin: 4% 0 0 -9%; }
+.me--guide canvas { width: 106%; max-width: none; margin: 3% 0 0 -3%; }
 .bubble--guide { max-width: min(380px, calc(100vw - 150px)); margin-bottom: 8px; font-size: .98rem; padding: 12px 16px; border-radius: 18px; }
 .bubble--guide:has(.bubble__txt:empty) { display: none; }
 .bubble--guide .bubble__tail { left: -8px; bottom: 16px; width: 14px; height: 14px; border-top: 0; border-right: 0; transform: rotate(45deg); border-radius: 0 0 0 3px; }
