@@ -8,7 +8,11 @@ index.html        the page (hero, about, tour, work, research, experience, conta
 css/style.css     all styling and animation
 js/data.js        ← EDIT THIS to add/change projects, groups and narration
 js/main.js        scroll-driven behaviour: about text, pinned project tour, tiles,
-                  travelling mascot, popup player, live GitHub repos, contact form
+                  travelling mascot, popup player, contact form
+tools/build.js    writes the project tiles, structured data, sitemap.xml and
+                  llms.txt from data.js (run after editing data.js)
+robots.txt        lets search engines and AI assistants crawl everything
+sitemap.xml       generated · llms.txt  generated plain-text profile for AI assistants
 js/mascot3d.js    the 3D mascot (Three.js + a dither shader): outfits, poses, gestures
 js/me.js          fallback "flat" mascot for browsers without WebGL
 assets/           favicon, share image (og.jpg), profile photo used by the fallback
@@ -44,8 +48,19 @@ then open <http://localhost:8080>.
   `outfit` (`polo`, `tee`, `music`, `polo-music`, `phone`, `vr`) and
   `say` — the two lines the mascot says. Wrap words in `*stars*` to highlight them.
 - **Groups:** edit `segments` (title, one-line blurb, what the mascot says).
-- **GitHub repos** load automatically; edit `repos` to override a description.
 - **Patents, papers, experience:** edit them directly in `index.html`.
+
+## After editing data.js
+
+Run this once (needs Node.js, no install):
+
+```bash
+node tools/build.js
+```
+
+It rewrites the project tiles inside `index.html` plus `sitemap.xml` and
+`llms.txt`, so search engines and AI assistants see every project as plain
+text. Commit the result; Netlify needs no build step.
 
 ## The mascot
 

@@ -28,12 +28,17 @@
     }).join("");
   }
   function yt(id, file) { return "https://i.ytimg.com/vi/" + encodeURIComponent(id) + "/" + file + ".jpg"; }
+  // Upgrade a thumbnail to HD; YouTube serves a tiny placeholder when no HD still exists.
   function poster(img, id) {
+    var hd = yt(id, "maxresdefault");
     img.addEventListener("load", function onload() {
-      if (img.naturalWidth <= 120) { img.removeEventListener("load", onload); img.src = yt(id, "hqdefault"); img.classList.add("is-lb"); }
+      if (img.src !== hd) return;
+      img.removeEventListener("load", onload);
+      if (img.naturalWidth <= 120) { img.src = yt(id, "hqdefault"); img.classList.add("is-lb"); }
+      else img.classList.remove("is-lb");
     });
     img.addEventListener("error", function () { img.src = yt(id, "hqdefault"); img.classList.add("is-lb"); }, { once: true });
-    img.src = yt(id, "maxresdefault");
+    img.src = hd;
   }
   function load(src) {
     return new Promise(function (ok, fail) {
@@ -99,32 +104,8 @@
     }, 500);
   }
 
-  /* ================= Work: segments and tiles ================= */
-  var segs = SITE.segments || [];
-  var segEl = $("#segments"), segNav = $("#segNav");
-  $("#workCount").textContent = projects.length + " projects in " + segs.length + " groups";
-  segNav.innerHTML = segs.map(function (s) {
-    var n = projects.filter(function (p) { return p.segment === s.key; }).length;
-    return '<a href="#seg-' + s.key + '" data-seg="' + s.key + '">' + esc(s.title) + "<sup>" + n + "</sup></a>";
-  }).join("");
-
-  function tileMedia(p) {
-    if (!p.video) return '<span class="tile__media tile__media--blank"><span>' + esc(p.signal || p.tags.join(" · ")) + "</span></span>";
-    if (p.video.short) return '<span class="tile__media tile__media--short" style="--img:url(\'' + yt(p.video.id, "hqdefault") + '\')"><span class="tile__poster"></span><span class="tile__chip">Short</span></span>';
-    return '<span class="tile__media" data-flip="' + esc(p.video.id) + '"><img alt="" data-poster="' + esc(p.video.id) + '" loading="lazy" decoding="async"></span>';
-  }
-  segEl.innerHTML = segs.map(function (s, si) {
-    var list = projects.filter(function (p) { return p.segment === s.key; });
-    return '<section class="seg" id="seg-' + s.key + '" data-say="' + esc(s.say) + '" data-outfit="' + (si % 2 ? "polo" : "tee") + '">' +
-      '<header class="seg__head reveal"><span class="seg__no">' + String(si + 1).padStart(2, "0") + '</span><h3 data-split>' + esc(s.title) + "</h3><p>" + esc(s.blurb) + "</p></header>" +
-      '<div class="tiles">' + list.map(function (p, i) {
-        return '<button class="tile reveal" type="button" style="--d:' + (i % 3) * 110 + 'ms" data-project="' + esc(p.slug) + '" data-cursor="' + (p.video ? "Play" : "Open") + '">' +
-          tileMedia(p) +
-          '<span class="tile__cap"><span class="tile__title">' + esc(p.title) + '</span><span class="tile__label">' + esc(p.label || "") + "</span></span>" +
-          '<span class="tile__sum">' + esc(p.summary) + "</span></button>";
-      }).join("") + "</div></section>";
-  }).join("");
-  $$("[data-split]", segEl).forEach(function (el) { wi = 0; split(el); });
+  /* ================= Work: groups and tiles (static HTML written by tools/build.js) ================= */
+  var segNav = $("#segNav"), segEl = $("#segments");
   $$("[data-poster]", segEl).forEach(function (img) { poster(img, img.dataset.poster); });
   var flips = $$("[data-flip]", segEl);
 
@@ -437,44 +418,10 @@
   $("#modalClose").addEventListener("click", closeModal);
   modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
   document.addEventListener("click", function (e) {
+    if (e.target.closest("a")) return; // real links inside a tile just navigate
     var el = e.target.closest("[data-project]");
     if (el) openProject(el.dataset.project);
   });
-
-  /* ================= GitHub repos (live, with fallback) ================= */
-  var repoEl = $("#repoList");
-  function month(d) { var x = new Date(d); return isNaN(x) ? "" : x.toLocaleDateString("en", { month: "short", year: "numeric" }); }
-  function renderRepos(list) {
-    list = list.slice().sort(function (a, b) { return (b.stars - a.stars) || (new Date(b.updated) - new Date(a.updated)); });
-    repoEl.innerHTML = list.map(function (r) {
-      return '<li class="reveal"><a class="repo" href="' + esc(r.url || "https://github.com/" + SITE.github + "/" + r.name) + '" target="_blank" rel="noopener">' +
-        '<span class="repo__name">' + esc(r.name) + (r.stars ? " ★" + r.stars : "") + "</span>" +
-        '<span class="repo__desc">' + esc(r.description || "—") + "</span>" +
-        '<span class="repo__lang">' + esc(r.language || "") + "</span>" +
-        '<span class="repo__date">' + month(r.updated) + "</span></a></li>";
-    }).join("");
-    $$("li", repoEl).forEach(function (li) { revealIO.observe(li); });
-  }
-  var curated = {};
-  (SITE.repos || []).forEach(function (r) { curated[r.name.toLowerCase()] = r; });
-  var cached = null;
-  try { cached = JSON.parse(sessionStorage.getItem("gh-repos-v3") || "null"); } catch (e) {}
-  if (cached && cached.length) renderRepos(cached);
-  else {
-    renderRepos(SITE.repos || []);
-    fetch("https://api.github.com/users/" + SITE.github + "/repos?per_page=100&sort=pushed", { headers: { Accept: "application/vnd.github+json" } })
-      .then(function (res) { if (!res.ok) throw new Error(res.status); return res.json(); })
-      .then(function (data) {
-        var list = data.filter(function (r) { return !r.fork && !r.archived && r.name.toLowerCase() !== SITE.github.toLowerCase(); }).map(function (r) {
-          var c = curated[r.name.toLowerCase()];
-          return { name: r.name, url: r.html_url, description: (c && c.description) || (r.description || "").trim(), language: r.language, stars: r.stargazers_count, updated: r.pushed_at };
-        });
-        if (!list.length) return;
-        try { sessionStorage.setItem("gh-repos-v3", JSON.stringify(list)); } catch (e) {}
-        renderRepos(list);
-      })
-      .catch(function () { /* keep fallback */ });
-  }
 
   /* ================= Contact form (Web3Forms) ================= */
   var form = $("#contactForm"), status = $("#formStatus");

@@ -17,14 +17,12 @@
  * ============================================================
  */
 window.SITE = {
-  github: "akhileshkrbhagat1",
-
   segments: [
     { key: "music", title: "Musical interfaces", blurb: "Instruments you play with your fingers, rings and gravity.", say: "These are the instruments. Two of them are patented." },
-    { key: "assistive", title: "Assistive & HCI", blurb: "Hardware for people the default interface forgets.", say: "This group is about access — eyes, mouths and distracted walkers." },
+    { key: "assistive", title: "HCI & Assistive", blurb: "Interfaces for people the default design forgets — and for audiences new to an art form.", say: "This group is about access — eyes, mouths, dancers and distracted walkers." },
     { key: "robotics", title: "Robotics", blurb: "Bots that roll, follow lines you draw, and fight in arenas.", say: "Robots! The arena one had 150+ people driving at once." },
     { key: "embedded", title: "Embedded & Linux", blurb: "Close to the metal: kernel modules, bare-metal C, UART.", say: "Kernel drivers and bare-metal C. My favourite kind of debugging." },
-    { key: "vision", title: "AI & Vision", blurb: "Depth cameras, tracking and language models driving hardware.", say: "Cameras and models — mostly to make hardware smarter." }
+    { key: "vision", title: "AI & Vision", blurb: "Wearable cameras, depth sensing and language models driving hardware.", say: "Cameras and models — mostly to make hardware smarter." }
   ],
 
   projects: [
@@ -67,14 +65,19 @@ window.SITE = {
       segment: "music",
       title: "GraviTone",
       label: "NIME ’25",
-      summary: "A tangible instrument built around a gravity well — orbiting balls become melody.",
-      tags: ["Sensors", "Sonification"],
+      summary: "Coloured balls orbit a gravity well on a stretchy space-time fabric; an overhead camera tracks them and turns their motion into music and live visuals.",
+      tags: ["OpenCV", "Max/MSP", "TouchDesigner", "OSC / MIDI"],
       video: { id: "ZXFu8Hwz9fA" },
       details: [
-        "Inspired by the space-time mesh model of gravity; data sonification turns motion into sound.",
-        "Published at NIME 2025 and shown at India HCI 2025."
+        "Balls launched from the rim orbit a central mass on the fabric; an overhead camera tracks each one (OpenCV).",
+        "Speed, position and orbit are mapped to synth parameters, VSTs and DAWs over OSC and MIDI.",
+        "Plays Indian classical ragas or Western scales, with real-time visuals that follow the balls.",
+        "Published at NIME 2025 and shown at India HCI 2025. I worked on the design and engineering, including the ball-tracking prototype."
       ],
-      links: [{ label: "Paper", url: "https://nime.org/proc/nime2025_95/index.html" }]
+      links: [
+        { label: "Paper", url: "https://nime.org/proc/nime2025_95/index.html" },
+        { label: "Ball-tracking prototype", url: "https://www.youtube.com/watch?v=dgAwJUS-uGE" }
+      ]
     },
     {
       slug: "theremin",
@@ -121,6 +124,21 @@ window.SITE = {
       links: [{ label: "Paper", url: "https://dl.acm.org/doi/abs/10.1145/3772318.3791535" }]
     },
     {
+      slug: "dance-scaffold",
+      segment: "assistive",
+      title: "Reading Indian Classical Dance",
+      label: "C&C ’26",
+      summary: "A system that recognises a dancer's hand gestures (mudras) and expressions (rasa) and narrates their meaning, so new audiences can follow the story.",
+      tags: ["Computer vision", "Multimodal AI", "Eye tracking", "HCI"],
+      video: { id: "ZX85xmg42VQ" },
+      details: [
+        "Extracts mudras, facial expressions and audio from a performance and produces text or spoken narration.",
+        "Study with 10 viewers using interviews and gaze tracking: audio narration kept eyes on the dancer, text overlays pulled them away.",
+        "Published at ACM Creativity & Cognition 2026."
+      ],
+      links: [{ label: "Paper", url: "https://dl.acm.org/doi/10.1145/3803784.3816837" }]
+    },
+    {
       slug: "gaze-icu",
       segment: "assistive",
       title: "Gaze Control for ICU Patients",
@@ -133,21 +151,6 @@ window.SITE = {
         "Input validation avoids false triggers from natural blinking."
       ]
     },
-    {
-      slug: "air-remote",
-      segment: "assistive",
-      title: "Air Remote",
-      label: "BMX160 · ESP-NOW",
-      summary: "Move your hand to move the pointer; buttons change slides.",
-      tags: ["ESP32", "BMX160 IMU", "ESP-NOW", "I²C"],
-      signal: "IMU → ESP32 ⇢ ESP32 → PC",
-      details: [
-        "BMX160 IMU over I²C; the handheld ESP32 sends motion over ESP-NOW to a receiver ESP32.",
-        "The receiver forwards to a Python app over serial, which moves the pointer and flips slides."
-      ],
-      links: [{ label: "GitHub", url: "https://github.com/akhileshkrbhagat1/air_mouse_for_presentations" }]
-    },
-
     /* ---------------- Robotics ---------------- */
     {
       slug: "robo-rumble",
@@ -191,13 +194,14 @@ window.SITE = {
       slug: "robodominion",
       segment: "robotics",
       title: "Robo Dominion Control Room",
-      label: "Web Serial",
-      summary: "Live broadcast page and admin control room for a robot battle.",
-      tags: ["JavaScript", "Web Serial", "ESP-NOW"],
-      signal: "Admin UI ⇄ USB ⇄ ESP-NOW",
+      label: "Live event",
+      summary: "The live broadcast and control room for Robo Dominion, the robot battle run by Yantra at IIT Madras.",
+      tags: ["JavaScript", "Web Serial", "ESP-NOW", "ESP32"],
+      video: { id: "A_dG05AvUfc" },
       details: [
-        "Public page with camera feeds, scores, bot health and tower state.",
-        "Admin page runs the match and talks to an ESP32 ESP-NOW master over Web Serial."
+        "Public live page with camera feeds, scores, bot health and tower state, shown on the big screen.",
+        "Admin control room starts and pauses the match and talks to an ESP32 ESP-NOW master over Web Serial.",
+        "Ran the full live event and run-through in June 2026."
       ],
       links: [{ label: "GitHub", url: "https://github.com/akhileshkrbhagat1/RoboDominion" }]
     },
@@ -240,6 +244,19 @@ window.SITE = {
 
     /* ---------------- AI & Vision ---------------- */
     {
+      slug: "hux-ai",
+      segment: "vision",
+      title: "HUX AI 2.0",
+      label: "HIVE Lab",
+      summary: "A cap-mounted camera sees what the wearer sees while a second camera watches their face — a live AI rig for understanding human experience.",
+      tags: ["Wearable camera", "Computer vision", "AI", "HCI"],
+      video: { id: "EnDfHaJ_veg" },
+      details: [
+        "First-person camera on a cap streams the wearer's view; a face camera captures their reactions at the same time.",
+        "Built at HIVE Lab, IIT Kanpur, where I was a designer, researcher and engineer on the project."
+      ]
+    },
+    {
       slug: "rgbd",
       segment: "vision",
       title: "RGB-D 3D Object Detection",
@@ -248,16 +265,6 @@ window.SITE = {
       tags: ["Python", "RealSense", "OpenCV"],
       video: { id: "Z1wGa7aI8Yo" },
       details: ["Synchronised colour + depth capture; detections combined with depth to estimate real-world positions."]
-    },
-    {
-      slug: "motion-tracker",
-      segment: "vision",
-      title: "Speed & Displacement Tracker",
-      label: "OpenCV",
-      summary: "Tracks fast-moving balls and measures their speed and displacement.",
-      tags: ["Python", "OpenCV"],
-      video: { id: "dgAwJUS-uGE" },
-      details: ["Frame-by-frame tracking; speed and displacement derived from the trajectory and plotted live."]
     },
     {
       slug: "neuro",
@@ -273,24 +280,5 @@ window.SITE = {
       ],
       links: [{ label: "GitHub", url: "https://github.com/akhileshkrbhagat1/Nuero_LLM" }]
     }
-  ],
-
-  /*
-   * GitHub repos load live from the GitHub API.
-   * This list is the fallback and supplies descriptions for repos that have none.
-   */
-  repos: [
-    { name: "pdf-from-yt-link", language: "Python", stars: 5, updated: "2026-09-26", description: "YouTube video → unique frames + synced transcript, as two PDFs." },
-    { name: "cdc2026", language: "PHP", stars: 0, updated: "2026-08-21", description: "Circuit Design Challenge: secure online exam platform (PHP + MySQL)." },
-    { name: "RoboDominion", language: "C++", stars: 0, updated: "2026-08-21", description: "Robot-battle dashboard with a Web Serial link to an ESP-NOW master." },
-    { name: "cdc_portal", language: null, stars: 0, updated: "2026-05-31", description: "Portal for the Circuit Design Challenge." },
-    { name: "linux_driver_devlopment", language: "C", stars: 0, updated: "2026-03-16", description: "Kernel modules and ProcFS drivers, kernel ↔ user space." },
-    { name: "air_mouse_for_presentations", language: "Python", stars: 0, updated: "2026-01-05", description: "IMU air remote and virtual pointer (ESP32 + ESP-NOW + Python)." },
-    { name: "RRCC_2.0", language: null, stars: 0, updated: "2025-10-04", description: "Work in progress." },
-    { name: "TeleOP_Bot", language: "C++", stars: 0, updated: "2025-04-29", description: "Drive a Wi-Fi robot from a web page over MQTT." },
-    { name: "GyroTrack", language: "MATLAB", stars: 0, updated: "2025-04-29", description: "Phone gyro + accelerometer streamed to a PC over UDP; Python and MATLAB viewers." },
-    { name: "TeA-Terminal_Assistant", language: "Python", stars: 0, updated: "2025-04-29", description: "Writes, runs and debugs shell scripts from plain English (Gemini API)." },
-    { name: "Nuero_LLM", language: "Python", stars: 0, updated: "2025-04-29", description: "LLM assistant that controls IoT devices and your PC." },
-    { name: "RobobumbleCC", language: "PHP", stars: 0, updated: "2025-04-29", description: "Robo Rumble controller: web UI → MQTT/WebSocket → ESP8266." }
   ]
 };
