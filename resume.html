@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Résumé — Akhilesh Kumar Bhagat</title>
 <meta name="description" content="Résumé of Akhilesh Kumar Bhagat — Electronic Systems student at IIT Madras and Student Research Assistant at IIT Kanpur (National Quantum Mission). Embedded systems, HCI and robotics; 3 patents; papers at CHI, UIST, NIME, C&C and INDIS.">
-<link rel="canonical" href="https://krakhilesh.netlify.app/resume.html">
+<link rel="canonical" href="https://krakhilesh.netlify.app/resume">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="profile">
 <meta property="og:title" content="Résumé — Akhilesh Kumar Bhagat">
 <meta property="og:description" content="Embedded systems, HCI and robotics. 3 patents · CHI · UIST · NIME · IIT Madras · IIT Kanpur.">
-<meta property="og:url" content="https://krakhilesh.netlify.app/resume.html">
+<meta property="og:url" content="https://krakhilesh.netlify.app/resume">
 <meta property="og:image" content="https://krakhilesh.netlify.app/assets/og.jpg">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,10 +31,10 @@
 
   /* Screen: a sheet of paper with a small toolbar */
   .bar { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 12px; max-width: 860px; margin: 0 auto; padding: 14px 16px; background: var(--paper); }
-  .bar a { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 18px; border: 1.5px solid var(--ink); border-radius: 999px; background: #fff; font-weight: 500; }
-  .bar a:hover { color: var(--ink); box-shadow: 3px 4px 0 var(--ink); }
-  .bar .dl { background: var(--blue); border-color: var(--blue); color: #fff; }
-  .bar .dl:hover { color: #fff; box-shadow: 3px 4px 0 var(--ink); }
+  .bar a, .bar button { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 18px; border: 1.5px solid var(--ink); border-radius: 999px; background: #fff; font-weight: 500; }
+  .bar button { font: inherit; color: #fff; cursor: pointer; background: var(--blue); border-color: var(--blue); }
+  .bar a:hover, .bar button:hover { color: var(--ink); box-shadow: 3px 4px 0 var(--ink); }
+  .bar button:hover { color: #fff; }
   .sheet { max-width: 860px; margin: 0 auto 48px; padding: 44px 52px 52px; background: #fff; border: 1.5px solid var(--ink); border-radius: 6px; }
 
   /* Header */
@@ -84,7 +84,7 @@
     .contact { grid-template-columns: 1fr; }
     .skills dd { margin-bottom: 6px; }
     .item__top { flex-direction: column; gap: 0; }
-    .bar a { padding: 0 14px; font-size: 14px; }
+    .bar a, .bar button { padding: 0 14px; font-size: 14px; }
   }
 
   /* Print / PDF: two A4 pages, nothing but the résumé */
@@ -113,7 +113,7 @@
 
 <nav class="bar" aria-label="Résumé actions">
   <a href="/">← Portfolio</a>
-  <a class="dl" href="/Akhilesh-Kumar-Bhagat-Resume.pdf" download>Download PDF ↓</a>
+  <button type="button" onclick="window.print()">Print</button>
 </nav>
 
 <main class="sheet">

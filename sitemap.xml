@@ -8,7 +8,7 @@
     <image:image><image:loc>https://krakhilesh.netlify.app/assets/og.jpg</image:loc></image:image>
   </url>
   <url>
-    <loc>https://krakhilesh.netlify.app/resume.html</loc>
+    <loc>https://krakhilesh.netlify.app/resume</loc>
     <lastmod>2026-10-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
