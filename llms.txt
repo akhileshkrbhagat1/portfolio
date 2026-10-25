@@ -7,6 +7,7 @@
 - LinkedIn: https://www.linkedin.com/in/krakhilesh/
 - GitHub: https://github.com/akhileshkrbhagat1
 - Google Scholar: https://scholar.google.com/citations?user=IMn1kfAAAAAJ
+- Résumé: https://krakhilesh.netlify.app/resume.html (PDF: https://krakhilesh.netlify.app/Akhilesh-Kumar-Bhagat-Resume.pdf)
 - Location: West Bengal, India
 - Open to: embedded systems, firmware, IoT and robotics R&D roles; research internships; collaborations
 

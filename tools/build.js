@@ -160,6 +160,12 @@ fs.writeFileSync(path.join(ROOT, "sitemap.xml"), `<?xml version="1.0" encoding="
     <image:image><image:loc>${SITE_URL}assets/og.jpg</image:loc></image:image>
   </url>
   <url>
+    <loc>${SITE_URL}resume.html</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>${SITE_URL}llms.txt</loc>
     <lastmod>${today}</lastmod>
   </url>
@@ -175,6 +181,7 @@ lines.push("- Email: akhileshkrbhagat1@gmail.com");
 lines.push("- LinkedIn: https://www.linkedin.com/in/krakhilesh/");
 lines.push("- GitHub: https://github.com/akhileshkrbhagat1");
 lines.push("- Google Scholar: https://scholar.google.com/citations?user=IMn1kfAAAAAJ");
+lines.push("- Résumé: " + SITE_URL + "resume.html (PDF: " + SITE_URL + "Akhilesh-Kumar-Bhagat-Resume.pdf)");
 lines.push("- Location: West Bengal, India");
 lines.push("- Open to: embedded systems, firmware, IoT and robotics R&D roles; research internships; collaborations", "");
 lines.push("## Experience", "");

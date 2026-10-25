@@ -17,6 +17,8 @@ js/mascot3d.js    the 3D mascot (Three.js + a dither shader): outfits, poses, ge
 js/me.js          fallback "flat" mascot for browsers without WebGL
 assets/           favicon, share image (og.jpg), profile photo used by the fallback
 404.html          "page not found" page (Netlify uses it automatically)
+resume.html       the résumé as a web page; also the source of the PDF
+Akhilesh-Kumar-Bhagat-Resume.pdf   printed from resume.html (see "Résumé" below)
 _headers          security / caching headers for Netlify
 ```
 
@@ -80,3 +82,10 @@ instead of big movement; the mascot still animates). The footer has a
 
 Uses Web3Forms with the same access key as the old site, so messages go to the
 email registered there. Nothing to configure on Netlify.
+
+## Résumé
+
+Edit `resume.html`, then print it to PDF with Edge or Chrome (A4, no headers and
+footers, background graphics on) and save over `Akhilesh-Kumar-Bhagat-Resume.pdf`.
+The page's print styles lay it out on two A4 pages. `assets/resume-preview.jpg` is
+the picture of page 1 shown on the home page.

@@ -347,6 +347,27 @@ h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.0
 .job__what { color: var(--ink-2); }
 .job__what b { display: block; color: var(--ink); font: 600 1.2rem/1.25 var(--display); letter-spacing: -0.01em; margin-bottom: 2px; }
 @media (max-width: 640px) { .job { grid-template-columns: 1fr; } }
+
+/* Résumé: a tilted sheet with the same dotted hard shadow as the pills */
+.resume { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 88px); align-items: center; }
+.resume__paper { position: relative; isolation: isolate; display: block; rotate: -2deg; transition: rotate .5s var(--spring), translate .5s var(--spring); }
+.resume__paper img { width: 100%; height: auto; border: 1.5px solid var(--ink); border-radius: 10px; background: #fff; }
+.resume__paper::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 10px;
+  translate: 9px 11px;
+  background: radial-gradient(var(--ink) 0.9px, transparent 1.1px) 0 0 / 3px 3px;
+  transition: translate .4s var(--ease);
+}
+.resume__paper:hover { rotate: 0deg; translate: 0 -6px; }
+.resume__paper:hover::after { translate: 13px 16px; }
+.resume__lead { font: 500 clamp(1.5rem, 2.6vw, 2.2rem)/1.15 var(--display); letter-spacing: -0.02em; }
+.resume__list { margin-top: 22px; border-top: 1.5px solid var(--ink); }
+.resume__list li { padding: 13px 0; border-bottom: 1px solid rgba(0, 0, 0, .14); color: var(--ink-2); }
+.resume__list b { color: var(--blue); font-weight: 650; }
+.resume__cta { display: flex; flex-wrap: wrap; gap: 14px 18px; margin-top: 28px; }
+.pill--blue { color: #fff; }
+.pill--blue::before { background: var(--blue); border-color: var(--ink); }
+@media (max-width: 800px) { .resume { grid-template-columns: 1fr; } .resume__paper { rotate: -1deg; } }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 32px; }
 .chips li { padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(0, 0, 0, .2); font-size: .92rem; background: #fff; transition: transform .3s var(--spring), border-color .2s; }
 .chips li:hover { transform: translateY(-3px) rotate(-1.5deg); border-color: var(--ink); }
