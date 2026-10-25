@@ -74,7 +74,7 @@ const person = {
   image: SITE_URL + "assets/og.jpg",
   email: "mailto:akhileshkrbhagat1@gmail.com",
   jobTitle: "Embedded Systems Engineer · Student Research Assistant, National Quantum Mission, IIT Kanpur",
-  description: "Embedded systems engineer studying Electronic Systems at IIT Madras, with a research background at IIT Kanpur. Works across hardware prototyping, human–computer interaction, assistive technology and robotics: three patents and publications at CHI, UIST, NIME and Creativity & Cognition.",
+  description: "Electronic Systems student at IIT Madras and Student Research Assistant at IIT Kanpur under India's National Quantum Mission. Works across embedded systems, HCI, assistive technology and robotics, with three patents and research publications at CHI, UIST and NIME. Builds human-centred hardware, from interactive musical interfaces to assistive devices and intelligent robots.",
   address: { "@type": "PostalAddress", addressRegion: "West Bengal", addressCountry: "IN" },
   affiliation: [
     { "@type": "CollegeOrUniversity", name: "Indian Institute of Technology Madras", sameAs: "https://www.iitm.ac.in/" },
@@ -169,7 +169,7 @@ fs.writeFileSync(path.join(ROOT, "sitemap.xml"), `<?xml version="1.0" encoding="
 /* ---------- llms.txt (plain-text profile for AI assistants) ---------- */
 const lines = [];
 lines.push("# Akhilesh Kumar Bhagat", "");
-lines.push("> Embedded systems engineer studying Electronic Systems at IIT Madras, with a research background at IIT Kanpur. Currently a Student Research Assistant at IIT Kanpur under India's National Quantum Mission. Works across hardware prototyping, human–computer interaction, assistive technology and robotics — three patents (two granted) and publications at CHI, UIST, NIME and Creativity & Cognition, plus a Best Paper Award at INDIS 2026.", "");
+lines.push("> Electronic Systems student at IIT Madras and Student Research Assistant at IIT Kanpur under India's National Quantum Mission. Works across embedded systems, HCI, assistive technology and robotics, with three patents (two granted) and research publications at CHI, UIST, NIME and Creativity & Cognition, plus a Best Paper Award at INDIS 2026. Builds human-centred hardware, from interactive musical interfaces to assistive devices and intelligent robots.", "");
 lines.push("- Website: " + SITE_URL);
 lines.push("- Email: akhileshkrbhagat1@gmail.com");
 lines.push("- LinkedIn: https://www.linkedin.com/in/krakhilesh/");
