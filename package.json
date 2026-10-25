@@ -1,0 +1,9 @@
+{
+  "name": "krakhilesh-portfolio",
+  "private": true,
+  "description": "Static portfolio. The dependencies are for the site function (netlify/functions/site.mjs) that serves edits made in /admin.",
+  "dependencies": {
+    "@netlify/blobs": "11.1.6",
+    "@netlify/functions": "6.0.3"
+  }
+}

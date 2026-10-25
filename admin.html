@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Site editor</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@500..800&family=Funnel+Sans:wght@400..600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #2b5be6; --paper: #f1f1ec; --ink: #121212; --ink-2: #55554f; --ink-3: #8a8a83; --line: rgba(0, 0, 0, .14);
+    --ok: #1d7a3e; --bad: #c0362c;
+    --display: "Funnel Display", "Segoe UI", system-ui, sans-serif;
+    --sans: "Funnel Sans", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font: 400 15px/1.45 var(--sans); -webkit-font-smoothing: antialiased; }
+  button, input, textarea, select { font: inherit; color: inherit; }
+  button { cursor: pointer; background: none; border: 0; }
+  a { color: inherit; }
+  [hidden] { display: none !important; }
+  :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+  .btn { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 0 15px; border: 1.5px solid var(--ink); border-radius: 999px; background: #fff; font-weight: 500; text-decoration: none; white-space: nowrap; transition: box-shadow .15s, transform .15s; }
+  .btn:hover { box-shadow: 3px 4px 0 var(--ink); transform: translate(-1px, -1px); }
+  .btn--blue { background: var(--blue); color: #fff; }
+  .btn:disabled { opacity: .45; cursor: default; box-shadow: none; transform: none; }
+
+  /* Sign in */
+  .gate { min-height: 100svh; display: grid; place-items: center; padding: 16px; background: var(--blue); }
+  .gate form { width: min(420px, 100%); padding: 32px 28px; background: #fff; border: 1.5px solid var(--ink); border-radius: 18px; box-shadow: 6px 7px 0 var(--ink); }
+  .gate h1 { font: 700 2rem/1 var(--display); letter-spacing: -0.03em; }
+  .gate p { margin-top: 8px; color: var(--ink-2); }
+  .gate label { display: block; margin-top: 22px; font-weight: 600; }
+  .gate input { display: block; width: 100%; margin-top: 6px; padding: 11px 14px; border: 1.5px solid var(--ink); border-radius: 10px; background: #fff; }
+  .gate .btn { margin-top: 16px; width: 100%; justify-content: center; }
+  .gate .msg { min-height: 1.4em; margin-top: 12px; font-size: .92rem; color: var(--bad); }
+
+  /* Top bar */
+  .top { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; padding: 10px 20px; background: var(--paper); border-bottom: 1.5px solid var(--ink); }
+  .top h1 { font: 700 1.25rem/1 var(--display); letter-spacing: -0.02em; }
+  .tabs { display: flex; gap: 4px; padding: 3px; border: 1.5px solid var(--ink); border-radius: 999px; background: #fff; }
+  .tabs button { min-height: 32px; padding: 0 14px; border-radius: 999px; font-weight: 600; color: var(--ink-2); }
+  .tabs button.is-on { background: var(--ink); color: #fff; }
+  .tabs button.is-dirty::after { content: " •"; color: var(--blue); }
+  .tabs button.is-on.is-dirty::after { color: #9db4ff; }
+  .status { margin-right: auto; font-size: .9rem; color: var(--ink-2); }
+  .status.is-dirty { color: var(--blue); font-weight: 600; }
+  .status.is-ok { color: var(--ok); font-weight: 600; }
+  .status.is-bad { color: var(--bad); font-weight: 600; }
+
+  /* Layout */
+  .layout { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: 22px; padding: 18px 20px 60px; align-items: start; }
+  .form { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .card { padding: 18px; background: #fff; border: 1.5px solid var(--ink); border-radius: 14px; }
+  .card > h2 { font: 650 1.15rem/1.1 var(--display); margin-bottom: 10px; }
+  .hint { margin: -4px 0 12px; font-size: .86rem; color: var(--ink-3); }
+
+  .field { display: block; }
+  .card > * + .field, .field + .field, .list + .field, .field + .list, .check + .field, .field + .check, .obj__body > * + * { margin-top: 12px; }
+  .field__label { display: block; margin-bottom: 4px; font-size: .82rem; font-weight: 600; color: var(--ink-2); }
+  .field__hint { display: block; margin-top: 4px; font-size: .8rem; color: var(--ink-3); }
+  .field__hint.is-bad { color: var(--bad); }
+  .field input[type=text], .field textarea, .field select { display: block; width: 100%; padding: 8px 11px; border: 1px solid #c9c9c2; border-radius: 8px; background: #fdfdfb; line-height: 1.4; }
+  .field textarea { resize: vertical; min-height: 60px; }
+  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--blue); background: #fff; outline: none; box-shadow: 0 0 0 3px rgba(43, 91, 230, .15); }
+  .stack { display: block; }
+  .check { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-weight: 600; font-size: .92rem; cursor: pointer; }
+  .check input { width: 18px; height: 18px; accent-color: var(--blue); }
+  .colour { display: flex; gap: 8px; align-items: center; }
+  .colour input[type=color] { width: 44px; height: 36px; padding: 2px; border: 1px solid #c9c9c2; border-radius: 8px; background: #fff; flex: none; }
+  .media__row { display: flex; gap: 6px; }
+  .media__row input { flex: 1; min-width: 0; }
+  .mini { flex: none; padding: 0 10px; min-height: 36px; border: 1px solid #c9c9c2; border-radius: 8px; background: #fff; font-size: .85rem; font-weight: 600; }
+  .mini:hover { border-color: var(--ink); }
+  .mini:disabled { opacity: .5; }
+  .media__thumb { display: block; margin-top: 8px; }
+  .media__thumb img, .media__thumb video { display: block; max-width: 220px; max-height: 140px; border: 1px solid #d6d6cf; border-radius: 8px; background: #f3f3ee; object-fit: cover; }
+  .obj > .check + .obj__body:not(:empty) { margin-top: 12px; padding: 12px; border-left: 3px solid var(--blue); background: #f6f8ff; border-radius: 0 10px 10px 0; }
+
+  .list__items { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) auto; gap: 6px; align-items: end; }
+  .row--3 { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.3fr) minmax(0, .9fr) auto; }
+  .row .field + .field { margin-top: 0; }
+  .row .field__label { display: none; }
+  .row:first-child .field__label { display: block; }
+  details.item { border: 1px solid #d6d6cf; border-radius: 10px; background: #fafaf7; }
+  details.item[open] { background: #fff; border-color: var(--ink-3); }
+  details.item > summary { display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 12px; cursor: pointer; list-style: none; }
+  details.item > summary::-webkit-details-marker { display: none; }
+  details.item > summary::before { content: "›"; font-size: 1.2rem; line-height: 1; color: var(--ink-3); transition: rotate .15s; }
+  details.item[open] > summary::before { rotate: 90deg; }
+  .item__name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+  .badge { flex: none; padding: 1px 8px; border-radius: 999px; background: #e9eefc; color: var(--blue); font-size: .75rem; font-weight: 700; }
+  .item__body { padding: 4px 12px 14px; }
+  .tools { display: flex; gap: 2px; flex: none; }
+  .tools button { width: 30px; height: 30px; border-radius: 8px; color: var(--ink-2); }
+  .tools button:hover { background: #ecece6; color: var(--ink); }
+  .tools button.del:hover { background: #fbe6e4; color: var(--bad); }
+  .adds { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .add { flex: 1; min-width: 120px; padding: 7px 12px; border: 1.5px dashed var(--ink-3); border-radius: 10px; color: var(--ink-2); font-weight: 600; text-align: left; }
+  .add:hover { border-color: var(--blue); color: var(--blue); background: #f3f6ff; }
+  .sub { margin-top: 12px; padding-top: 12px; border-top: 1px dashed #d6d6cf; }
+
+  /* Preview */
+  .preview { position: sticky; top: 76px; display: flex; flex-direction: column; max-height: calc(100svh - 92px); border: 1.5px solid var(--ink); border-radius: 14px; background: #fff; overflow: hidden; }
+  .preview__bar { display: flex; align-items: center; gap: 8px; padding: 7px 10px 7px 14px; border-bottom: 1px solid var(--line); }
+  .preview__bar p { margin-right: auto; font-size: .78rem; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: .08em; }
+  .seg { display: flex; gap: 2px; padding: 2px; border: 1px solid #d6d6cf; border-radius: 999px; }
+  .seg button { padding: 3px 10px; border-radius: 999px; font-size: .8rem; font-weight: 600; color: var(--ink-2); }
+  .seg button.is-on { background: var(--ink); color: #fff; }
+  .preview__scroll { overflow: auto; }
+  .preview__box { position: relative; overflow: hidden; margin: 0 auto; }
+  .preview iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; background: #fff; }
+
+  /* Uploads library */
+  .lib { width: min(820px, calc(100% - 24px)); max-height: calc(100dvh - 40px); margin: auto; padding: 0; border: 1.5px solid var(--ink); border-radius: 16px; }
+  .lib::backdrop { background: rgba(0, 0, 0, .45); }
+  .lib__bar { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .lib__bar h2 { font: 650 1.1rem/1 var(--display); }
+  .lib__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; padding: 16px; overflow: auto; max-height: calc(100dvh - 120px); }
+  .lib__item { display: grid; gap: 6px; }
+  .lib__pick { display: grid; gap: 4px; padding: 6px; border: 1px solid #d6d6cf; border-radius: 10px; text-align: left; font-size: .78rem; color: var(--ink-2); }
+  .lib__pick:hover { border-color: var(--blue); }
+  .lib__pick img, .lib__pick video { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; background: #f3f3ee; }
+  .lib__pick span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lib__del { justify-self: start; font-size: .78rem; color: var(--bad); }
+
+  @media (max-width: 1050px) {
+    .layout { grid-template-columns: minmax(0, 1fr); }
+    .preview { position: static; max-height: none; }
+    .top { position: static; }
+  }
+  @media (max-width: 560px) {
+    .layout { padding: 12px; }
+    .row, .row--3 { grid-template-columns: minmax(0, 1fr) auto; }
+    .row .field__label { display: block; }
+    .media__row { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <form id="login" autocomplete="off">
+    <h1>Site editor</h1>
+    <p>Edit the website and the résumé.</p>
+    <label for="pw">Admin password</label>
+    <input id="pw" type="password" autocomplete="current-password" required>
+    <button class="btn btn--blue" type="submit">Unlock</button>
+    <p class="msg" id="loginMsg" role="alert"></p>
+  </form>
+</div>
+
+<div id="app" hidden>
+  <header class="top">
+    <h1>Site editor</h1>
+    <div class="tabs" role="tablist">
+      <button type="button" data-tab="site" class="is-on">Website</button>
+      <button type="button" data-tab="resume">Résumé</button>
+    </div>
+    <span class="status" id="status" role="status" aria-live="polite"></span>
+    <button class="btn" id="restore" type="button">Restore original</button>
+    <a class="btn" href="/" target="_blank" rel="noopener">View site ↗</a>
+    <button class="btn" id="lock" type="button">Lock</button>
+    <button class="btn btn--blue" id="save" type="button" disabled>Save &amp; publish</button>
+  </header>
+  <div class="layout">
+    <div class="form" id="form"></div>
+    <div class="preview">
+      <div class="preview__bar">
+        <p>Preview</p>
+        <div class="seg" id="devices">
+          <button type="button" data-device="desktop" class="is-on">Desktop</button>
+          <button type="button" data-device="phone">Phone</button>
+        </div>
+      </div>
+      <div class="preview__scroll">
+        <div class="preview__box" id="previewBox"><iframe id="preview" title="Preview"></iframe></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<dialog class="lib" id="library" aria-labelledby="libraryTitle">
+  <div class="lib__bar">
+    <h2 id="libraryTitle">Uploads</h2>
+    <button class="btn" type="button" id="libraryClose">Close</button>
+  </div>
+  <div class="lib__grid" id="libraryGrid"></div>
+</dialog>
+
+<script type="module" src="/js/admin/admin.mjs"></script>
+</body>
+</html>

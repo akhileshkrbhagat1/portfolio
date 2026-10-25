@@ -1,35 +1,57 @@
 # Everyone is welcome to crawl and index this portfolio — search engines and AI assistants alike.
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 User-agent: Googlebot
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 User-agent: GPTBot
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 User-agent: Claude-User
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /admin
+Disallow: /api/
 
 Sitemap: https://krakhilesh.netlify.app/sitemap.xml

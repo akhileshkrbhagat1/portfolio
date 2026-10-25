@@ -1,4 +1,4 @@
-/* Portfolio behaviour — plain JS. Content: data.js · 3D mascot: mascot3d.js · photo fallback: me.js */
+/* Portfolio behaviour — plain JS. Content: window.SITE (inlined in the page) · 3D mascot: mascot3d.js · photo fallback: me.js */
 (function () {
   "use strict";
 
@@ -67,7 +67,7 @@
   var aboutWords = $$(".w", aboutText);
 
   /* ================= Tour (pinned featured projects) ================= */
-  var featured = projects.filter(function (p) { return p.featured; });
+  var featured = projects.filter(function (p) { return p.featured && (p.video || p.image); });
   var N = featured.length;
   var tour = $("#featured"), stage = $("#tourStage"), tourBubble = $("#tourBubble"), tourPill = $("#tourPill");
   tour.style.height = "calc(100svh + " + (N * 140) + "svh)";
@@ -77,8 +77,9 @@
   }).join("");
   $("#tourScreens").innerHTML = featured.map(function (p) {
     return '<div class="window"><div class="window__bar" aria-hidden="true"><i></i><i></i><i></i><span class="window__file">' + esc(p.featured.file) + "</span></div>" +
-      '<div class="window__screen" data-project="' + esc(p.slug) + '" data-cursor="Play"><img alt="' + esc(p.title) + ' — video still" data-poster="' + esc(p.video.id) + '">' +
-      '<span class="window__cta">▶ Play with sound</span></div></div>';
+      '<div class="window__screen" data-project="' + esc(p.slug) + '" data-cursor="' + (p.video ? "Play" : "Open") + '">' +
+      (p.image ? '<img alt="' + esc(p.title) + '" src="' + esc(p.image) + '">' : '<img alt="' + esc(p.title) + ' — video still" data-poster="' + esc(p.video.id) + '">') +
+      '<span class="window__cta">' + (p.video ? "▶ Play with sound" : "Open the project") + "</span></div></div>";
   }).join("");
   $$("[data-poster]", tour).forEach(function (img) { poster(img, img.dataset.poster); });
   var bars = $$("#tourBars i"), titles = $$(".tour__title"), windows = $$(".window", tour);
@@ -89,7 +90,7 @@
     liveIdx = i;
     clearTimeout(liveTimer);
     $$(".window__screen iframe", tour).forEach(function (f) { f.remove(); });
-    if (i < 0 || reduced || saveData) return;
+    if (i < 0 || reduced || saveData || !featured[i].video) return;
     liveTimer = setTimeout(function () {
       var p = featured[i], screen = $(".window__screen", windows[i]);
       var f = document.createElement("iframe");
@@ -301,8 +302,9 @@
     var on = Math.round(ap * aboutWords.length * 1.04);
     aboutWords.forEach(function (w, i) { w.classList.toggle("is-on", i < on); });
 
-    // Tour progress
+    // Tour progress (skipped when nothing is featured: the section is hidden)
     var tr = tour.getBoundingClientRect();
+    if (!N) { inTour = false; afterTour = true; } else {
     var t = clamp(-tr.top / (tr.height - vh), 0, 1);
     var pos = t * N, idx = Math.min(N - 1, Math.floor(pos)), local = pos - idx;
     inTour = tr.top <= vh * 0.35 && tr.bottom >= vh * 0.6;
@@ -328,6 +330,7 @@
     tw.forEach(function (w, i) { w.classList.toggle("is-on", i < lit); });
     goLive(inTour ? idx : -1);
     ME.point(inTour && beat === 1);
+    }
 
     // The travelling mascot: hero centre → bottom-left for the tour → hands over to the badge
     var mw = floatMe.offsetWidth, mh = mw * 1.17;
@@ -352,7 +355,7 @@
     // Header text colour follows whatever is underneath it
     var fg = "#121212", cr = $("#contact").getBoundingClientRect();
     if (hero.getBoundingClientRect().bottom > 40 || cr.top < 40) fg = "#fbfbf8";
-    else if (tr.top <= 40 && tr.bottom > 40) fg = featured[idx].featured.ink;
+    else if (N && tr.top <= 40 && tr.bottom > 40) fg = featured[tourIdx].featured.ink;
     root.style.setProperty("--top-fg", fg);
 
     // Corner badge takes over after the tour (not in the footer)
@@ -400,7 +403,8 @@
     file.textContent = (p.featured && p.featured.file) || slug.replace(/-/g, "_") + (p.video ? ".mp4" : ".md");
     media.innerHTML = p.video ?
       '<div class="frame' + (p.video.short ? " frame--short" : "") + '"><iframe src="https://www.youtube-nocookie.com/embed/' + p.video.id +
-      '?autoplay=1&rel=0&playsinline=1&modestbranding=1" title="' + esc(p.title) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>' : "";
+      '?autoplay=1&rel=0&playsinline=1&modestbranding=1" title="' + esc(p.title) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>' :
+      p.image ? '<img class="modal__img" src="' + esc(p.image) + '" alt="' + esc(p.title) + '">' : "";
     body.innerHTML =
       '<p class="modal__label">' + esc(p.label || "") + "</p>" +
       '<h3 id="modalTitle">' + esc(p.title) + "</h3>" +
@@ -443,6 +447,12 @@
       .catch(function () { setStatus("Couldn't send. Please email akhileshkrbhagat1@gmail.com instead.", "err"); })
       .then(function () { btn.disabled = false; });
   });
+
+  /* ================= Résumé preview: the live page, scaled down to its frame ================= */
+  var resumeFrame = $(".resume__frame");
+  if (resumeFrame && window.ResizeObserver) {
+    new ResizeObserver(function () { resumeFrame.style.setProperty("--k", (resumeFrame.clientWidth / 860).toFixed(4)); }).observe(resumeFrame);
+  }
 
   /* ================= Go ================= */
   function ready() {

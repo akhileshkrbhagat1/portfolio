@@ -1,42 +1,43 @@
 # Akhilesh Kumar Bhagat
 
-> Electronic Systems student at IIT Madras and Student Research Assistant at IIT Kanpur under India's National Quantum Mission. Works across embedded systems, HCI, assistive technology and robotics, with three patents (two granted) and research publications at CHI, UIST, NIME and Creativity & Cognition, plus a Best Paper Award at INDIS 2026. Builds human-centred hardware, from interactive musical interfaces to assistive devices and intelligent robots.
+> I'm an Electronic Systems student at IIT Madras and a Student Research Assistant at IIT Kanpur under India's National Quantum Mission. My work spans embedded systems, HCI, assistive technology and robotics, with three patents and research publications at CHI, UIST and NIME. I build human-centred hardware — from interactive musical interfaces to assistive devices and intelligent robots.
 
 - Website: https://krakhilesh.netlify.app/
 - Email: akhileshkrbhagat1@gmail.com
 - LinkedIn: https://www.linkedin.com/in/krakhilesh/
 - GitHub: https://github.com/akhileshkrbhagat1
-- Google Scholar: https://scholar.google.com/citations?user=IMn1kfAAAAAJ
+- Scholar: https://scholar.google.com/citations?user=IMn1kfAAAAAJ&hl=en
 - Résumé: https://krakhilesh.netlify.app/resume
 - Location: West Bengal, India
-- Open to: embedded systems, firmware, IoT and robotics R&D roles; research internships; collaborations
-
-## Experience
-
-- Student Research Assistant — IIT Kanpur, National Quantum Mission (Jul 2026 – present)
-- Teaching Assistant, School Connect — CODE, IIT Madras (Dec 2025 – present)
-- Project Assistant — IIT Madras (Apr – Jun 2026)
-- Research Intern — HIVE Lab, IIT Kanpur (Nov 2024 – Mar 2026): 10+ hardware prototypes, co-inventor on 3 patents, co-author of 6 papers; mentored 20+ Master's and PhD students
-- Founder & Secretary — Yantra Robotics Society, IIT Madras BS (Aug 2024 – Jul 2026): 30-member core team, 1000+ members, 30+ hands-on sessions
-- Event Coordinator & Exhibitor — Techkriti 2025, IIT Kanpur (Mar 2025)
-- Group Lead — Saranda House, IIT Madras BS (Aug – Nov 2024)
-- Education: BS in Electronic Systems, IIT Madras (2023 – 2027)
+- I'm open to embedded, firmware, IoT and robotics R&D roles.
 
 ## Patents
 
-- Indian Patent No. 588076 (granted) — Wearable Musical Device for Simulating Indian Classical Percussion Audio (the Tabla Glove / Layika). Application 202511071234.
-- Indian Patent No. 587794 (granted) — A Musical Instrument (Swarings, ring-based MIDI controller). Application 202511072744.
-- Patent application 202511070920 (filed Nov 2025) — Real-Time Visual Feedback System and Method for Minimizing the Risk of Jaywalking or Distracted Walking (PathBuddy).
+- Granted · 588076 — Wearable Musical Device for Simulating Indian Classical Percussion Audio (The Tabla Glove)
+- Granted · 587794 — A Musical Instrument (Swarings, the ring-based MIDI controller)
+- Filed · 2025 — Real-Time Visual Feedback System and Method for Minimizing the Risk of Jaywalking or Distracted Walking (PathBuddy — open for licensing via IIT Kanpur)
 
-## Publications
+## Papers
 
-- PathBuddy: A Smart Solution to Prevent Smartphone-Induced Jaywalking Risks with Enhanced Obstacle Awareness. INDIS 2026 — International Conference on Design and Innovation Studies, IIT Guwahati
-- When Assistive Technologies become Provocations: Unpacking Access in HCI practices using Crip Technoscience, Mouth Interfaces, and XR. CHI 2026 — ACM Conference on Human Factors in Computing Systems. https://dl.acm.org/doi/abs/10.1145/3772318.3791535
-- Designing a Scaffolding for the Audience to Create Participatory Sense-making in Indian Classical Dance. ACM Creativity & Cognition 2026. https://dl.acm.org/doi/abs/10.1145/3803784.3816837
-- Layika: A Wearable Device Mapping Traditional Hand Gestures to Tabla Sound. NIME 2026 — New Interfaces for Musical Expression
-- Swarings: Exploring Expressive Freedom through Ring-Based Musical Interaction. UIST 2025 Adjunct — ACM Symposium on User Interface Software and Technology. https://dl.acm.org/doi/abs/10.1145/3746058.3758455
-- GraviTone: A Tangible Musical Interface using Gravity Well for Sound and Music Creation. NIME 2025 — New Interfaces for Musical Expression. https://nime.org/proc/nime2025_95/index.html
-- Posters & demos at India HCI 2025: GraviTone; Swarings; The Tabla Glove — An Accompanist for Musical Training and Exploration.
+- PathBuddy: A Smart Solution to Prevent Smartphone-Induced Jaywalking Risks with Enhanced Obstacle Awareness. INDIS ’26 · Best Paper
+- When Assistive Technologies become Provocations: Unpacking Access in HCI practices using Crip Technoscience, Mouth Interfaces, and XR. CHI ’26. https://dl.acm.org/doi/abs/10.1145/3772318.3791535
+- Designing a Scaffolding for the Audience to Create Participatory Sense-making in Indian Classical Dance. C&C ’26. https://dl.acm.org/doi/abs/10.1145/3803784.3816837
+- Layika: A Wearable Device Mapping Traditional Hand Gestures to Tabla Sound. NIME ’26. https://scholar.google.com/citations?view_op=view_citation&hl=en&user=IMn1kfAAAAAJ&citation_for_view=IMn1kfAAAAAJ:qjMakFHDy7sC
+- Swarings: Exploring Expressive Freedom through Ring-Based Musical Interaction. UIST ’25. https://dl.acm.org/doi/abs/10.1145/3746058.3758455
+- GraviTone: A Tangible Musical Interface using Gravity Well for Sound and Music Creation. NIME ’25. https://nime.org/proc/nime2025_95/index.html
+- Also three posters & demos at India HCI 2025 — GraviTone, Swarings and the Tabla Glove. Google Scholar ↗ (https://scholar.google.com/citations?user=IMn1kfAAAAAJ&hl=en)
+
+## Experience
+
+- Student Research Assistant — IIT Kanpur · National Quantum Mission (Jul 2026 — now)
+- Teaching Assistant, School Connect — CODE, IIT Madras (Dec 2025 — now)
+- Project Assistant — IIT Madras (Apr — Jun 2026)
+- Research Intern — HIVE Lab, IIT Kanpur — 10+ prototypes, 3 patents, 6 papers; helped 20+ Master's and PhD students build theirs (Nov 2024 — Mar 2026)
+- Founder & Secretary — Yantra — Robotics Society, IIT Madras BS · 30-member core team, 1000+ members, 30+ hands-on sessions (Aug 2024 — Jul 2026)
+- Event Coordinator & Exhibitor — Techkriti 2025, IIT Kanpur · ~60,000 visitors (Mar 2025)
+- BS, Electronic Systems — Indian Institute of Technology Madras (2023 — 2027)
+
+Skills: Embedded C, Python, Verilog, ESP32, STM32, Raspberry Pi & Pico, NVIDIA Jetson, Intel RealSense, FreeRTOS, Linux device drivers, ROS 2, MQTT, ESP-NOW, SPI · I²C · UART · CAN, OpenCV, LTspice, Fusion, Git
 
 ## Projects
 
@@ -161,6 +162,4 @@
   - Video: https://www.youtube.com/shorts/0bmbddCC9Mw
   - GitHub: https://github.com/akhileshkrbhagat1/Nuero_LLM
 
-## Skills
-
-Embedded C, C, Python, Bash, Verilog, JavaScript · ESP32, STM32, Arduino, Seeeduino XIAO, Raspberry Pi & Pico, NVIDIA Jetson, Intel RealSense · MQTT, ESP-NOW, SPI, I²C, UART, CAN · FreeRTOS, Linux device drivers, ROS 2 · OpenCV, LTspice, Fusion, Blender, Git
+Résumé: https://krakhilesh.netlify.app/resume
